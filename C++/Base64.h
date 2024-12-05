@@ -1,11 +1,22 @@
-#ifndef _BASE64_H_
-#define _BASE64_H_
+#ifndef BASE64_H
+#define BASE64_H
 
-#include <vector>
+#define BASE64_CHARS "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+
 #include <string>
+#include <vector>
+
 typedef unsigned char BYTE;
 
-std::string base64_encode(BYTE const* buf, unsigned int bufLen);
-std::vector<BYTE> base64_decode(std::string const&);
+class Base64 {
+public:
+    void execute(std::string inputX);
 
-#endif
+private:
+    int var;
+    std::string input;
+    std::string base64_encode(const BYTE* buf, unsigned int bufLen);
+    std::vector<BYTE> base64_decode(const std::string& encoded_string);
+};
+
+#endif // BASE64_H
