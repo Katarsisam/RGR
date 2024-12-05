@@ -69,27 +69,8 @@ void EnigmaAlgorithm::execute(std::string inputX) {
         return;
     }
     
-    while(var != 1 && var != 2){
-        std::cin >> var;
-        if (var != 1 && var != 2) {
-            std::cerr << "Ошибка: неверный режим!" << std::endl;
-    }
-    }
+    message = inputX;
     
-        switch (var)
-        {
-        case 1:
-            message = inputX;
-            break;
-        case 2:
-            std::cout << "Введите строку: ";
-            std::cin.ignore();
-            std::getline(std::cin, message);
-            break;
-        default:
-            break;
-    }
-
     std::cout << "Выберите 3 ротора (1-5): ";
     for (int i = 0; i < 3; ++i) {
         int rotor_choice;

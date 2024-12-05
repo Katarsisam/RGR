@@ -92,51 +92,25 @@ std::string Base64::base64_encode(const BYTE* buf, unsigned int bufLen) {
 void Base64::execute(std::string inputX) {
    
     int operation;
-    std::cout << "Ââåäèòå ðåæèì (1 - ENCODE/ 2 - DECODE): ";
+    std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ€ÐµÐ¶Ð¸Ð¼ (1 - ENCODE/ 2 - DECODE): ";
     std::cin >> operation;
 
-    if (operation != 1 && operation != 2) {
-        std::cerr << "Îøèáêà: íåâåðíûé ðåæèì!" << std::endl;
-     
-        return;
-    }
-    
-    while(var != 1 && var != 2){
-        std::cin >> var;
-        if (var != 1 && var != 2) {
-            std::cerr << "Îøèáêà: íåâåðíûé ðåæèì!" << std::endl;
-    }
-    }
-        switch (var)
-        {
-        case 1:
-            input = inputX;
-            break;
-        case 2:
-            std::cout << "Ââåäèòå ñòðîêó: ";
-            std::cin.ignore();
-            std::getline(std::cin, input);
-            break;
-        default:
-            break;
-    }
-    
-
+    input = inputX;
     if (operation == 1) {
         std::string encoded = base64_encode(reinterpret_cast<const BYTE*>(input.c_str()), input.size());
-        std::cout << "Çàêîäèðîâàíî: " << encoded << std::endl;
+        std::cout << "Ð—Ð°ÐºÐ¾Ð´Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ: " << encoded << std::endl;
     } else {
         try {
             for (char c : input) {
                 if (!isalnum(c) && c != '+' && c != '/' && c != '=') {
-                    throw std::invalid_argument("Ñòðîêà ñîäåðæèò íåêîððåêòíûå ñèìâîëû!");
+                    throw std::invalid_argument("ÐžÑˆÐ¸Ð±ÐºÐ°, Ð½ÐµÐ¸Ð·Ð²ÐµÑÑ‚Ð½Ñ‹Ð¹ ÑÐ¸Ð¼Ð²Ð¾Ð»!");
                 }
             }
             std::vector<BYTE> decoded = base64_decode(input);
             std::string decoded_str(decoded.begin(), decoded.end());
-            std::cout << "Äåêîäèðîâàíî: " << decoded_str << std::endl;
+            std::cout << "Ð”ÐµÐºÐ¾Ð´Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ: " << decoded_str << std::endl;
         } catch (std::exception& e) {
-            std::cerr << "Îøèáêà: " << e.what() << std::endl;
+            std::cerr << "Ð ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚: " << e.what() << std::endl;
         }
     }
 }

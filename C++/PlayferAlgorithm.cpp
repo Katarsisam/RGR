@@ -72,28 +72,10 @@ void PlayferAlgorithm::execute(std::string inputX) {
         std::cerr << "Ошибка: длина ключа должна быть от 5 до 10 символов!" << std::endl;
         return;
     }
-
-   
-    while(var != 1 && var != 2){
-        std::cin >> var;
-        if (var != 1 && var != 2) {
-            std::cerr << "Ошибка: неверный режим!" << std::endl;
-    }
-    }
     
-        switch (var)
-        {
-        case 1:
-            message = inputX;
-            break;
-        case 2:
-            std::cout << "Введите строку: ";
-            std::cin.ignore();
-            std::getline(std::cin, message);
-            break;
-        default:
-            break;
-    }
+    message = inputX;
+   
+    
     std::string alphabet = keyword.find_first_of(RUS_ALPHABET) != std::string::npos ? RUS_ALPHABET : ENG_ALPHABET;
     generate_matrix(alphabet);
 
