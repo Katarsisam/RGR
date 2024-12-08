@@ -89,7 +89,7 @@ std::string Base64::base64_encode(const BYTE* buf, unsigned int bufLen) {
     return ret;
 }
 
-void Base64::execute(std::string inputX) {
+void Base64::execute(std::string& inputX) {
    
     int operation;
     std::cout << "Введите режим (1 - ENCODE/ 2 - DECODE): ";
@@ -99,6 +99,7 @@ void Base64::execute(std::string inputX) {
     if (operation == 1) {
         std::string encoded = base64_encode(reinterpret_cast<const BYTE*>(input.c_str()), input.size());
         std::cout << "Закодированное сообщение: " << encoded << std::endl;
+        inputX = encoded;
     } else {
         try {
             for (char c : input) {
@@ -109,6 +110,7 @@ void Base64::execute(std::string inputX) {
             std::vector<BYTE> decoded = base64_decode(input);
             std::string decoded_str(decoded.begin(), decoded.end());
             std::cout << "Декодированное сообщение: " << decoded_str << std::endl;
+            inputX = decoded_str;
         } catch (std::exception& e) {
             std::cerr << "Результат: " << e.what() << std::endl;
         }

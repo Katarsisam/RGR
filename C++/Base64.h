@@ -10,7 +10,7 @@ typedef unsigned char BYTE;
 
 class Base64 {
 public:
-    void execute(std::string inputX);
+    void execute(std::string& inputX);
 
 private:
     int var;

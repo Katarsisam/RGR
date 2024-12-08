@@ -54,7 +54,7 @@ std::string PlayferAlgorithm::decode_bigram(const std::pair<int, int>& pos1, con
     }
 }
 
-void PlayferAlgorithm::execute(std::string inputX) {
+void PlayferAlgorithm::execute(std::string& inputX) {
     char mode;
     
     std::cout << "Введите режим (1 - ENCODE/ 2 - DECODE): ";
@@ -92,4 +92,5 @@ void PlayferAlgorithm::execute(std::string inputX) {
         }
     }
     std::cout << "Результат: " << result << std::endl;
+    inputX = result;
 }

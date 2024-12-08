@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+ 
 #include "PlayferAlgorithm.h"
 #include "EnigmaAlgorithm.h"
 #include "Base64.h"
@@ -12,6 +13,7 @@ string read_from_file(const string& filename) {
     ifstream file(filename);
     if (!file.is_open()) {
         cerr << "Ошибка: невозможно открыть файл " << filename << endl;
+        file.close();
         return "";
     }
     string content((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
@@ -19,18 +21,31 @@ string read_from_file(const string& filename) {
     return content;
 }
 
+void change_file(const string& filename, string input) {
+    ofstream file;
+    file.open(filename);
+    if (!file.is_open()) {
+        cerr << "Ошибка: невозможно открыть файл " << filename << endl;
+        return;
+    }
+    file << input;
+    
+    file.close();
+    
+}
+
 // Функции запуска алгоритмов
-void run_playfer(const string& input) {
+void run_playfer(string& input) {
     PlayferAlgorithm playfer;
     playfer.execute(input);
 }
 
-void run_enigma(const string& input) {
+void run_enigma(string& input) {
     EnigmaAlgorithm enigma;
     enigma.execute(input);
 }
 
-void run_base64(const string& input) {
+void run_base64(string& input) {
     Base64 base64;
     base64.execute(input);
 }
@@ -63,12 +78,12 @@ int main() {
         }
 
         string input_data;
+        string filename;
         if (input_choice == 1) {
             cout << "Введите текст для обработки: ";
             cin.ignore(); 
             getline(cin, input_data);
         } else if (input_choice == 2) {
-            string filename;
             cout << "Введите имя файла: ";
             cin >> filename;
             input_data = read_from_file(filename);
@@ -109,6 +124,9 @@ int main() {
             default:
                 cerr << "Ошибка: неверный ввод!" << endl;
         }
+
+        if(input_choice == 2)
+            change_file(filename,input_data);
     }
     return 0;
 }

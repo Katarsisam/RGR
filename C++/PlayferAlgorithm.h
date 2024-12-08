@@ -5,7 +5,7 @@
  
 class PlayferAlgorithm {
 public:
-    void execute(std::string inputX);
+    void execute(std::string& inputX);
 
 private:
     int var;

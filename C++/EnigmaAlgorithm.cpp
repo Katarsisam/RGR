@@ -13,7 +13,7 @@ const std::string STANDARD_ROTORS[] = {
     "VZBRGITYUPSDNHLXAWMJQOFECK"
 };
 
-void EnigmaAlgorithm::encode_message(const std::string& alphabet) {
+std::string EnigmaAlgorithm::encode_message(const std::string& alphabet) {
     int size = alphabet.size();
 
     for (size_t i = 0; i < message.size(); i++) {
@@ -34,9 +34,10 @@ void EnigmaAlgorithm::encode_message(const std::string& alphabet) {
     }
 
     std::cout << "Зашифрованное сообщение: " << message << std::endl;
+    return message;
 }
 
-void EnigmaAlgorithm::decode_message(const std::string& alphabet) {
+std::string EnigmaAlgorithm::decode_message(const std::string& alphabet) {
     int size = alphabet.size();
 
     for (size_t i = 0; i < message.size(); i++) {
@@ -57,9 +58,10 @@ void EnigmaAlgorithm::decode_message(const std::string& alphabet) {
     }
 
     std::cout << "Дешифрованное сообщение: " << message << std::endl;
+    return message;
 }
 
-void EnigmaAlgorithm::execute(std::string inputX) {
+void EnigmaAlgorithm::execute(std::string& inputX) {
     int operation;
     std::cout << "Введите режим (1 - ENCODE/ 2 - DECODE): ";
     std::cin >> operation;
@@ -96,8 +98,9 @@ void EnigmaAlgorithm::execute(std::string inputX) {
     }
 
     if (operation == 1) {
-        encode_message(alphabet);
+        inputX = encode_message(alphabet);
     } else {
-        decode_message(alphabet);
+        inputX = decode_message(alphabet);
     }
+
 }
