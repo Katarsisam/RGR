@@ -8,11 +8,11 @@
 
 using namespace std;
 
-// Чтение текста из файла
+// Р§С‚РµРЅРёРµ С‚РµРєСЃС‚Р° РёР· С„Р°Р№Р»Р°
 string read_from_file(const string& filename) {
     ifstream file(filename);
     if (!file.is_open()) {
-        cerr << "Ошибка: невозможно открыть файл " << filename << endl;
+        cerr << "РћС€РёР±РєР°: РЅРµРІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» " << filename << endl;
         file.close();
         return "";
     }
@@ -25,7 +25,7 @@ void change_file(const string& filename, string input) {
     ofstream file;
     file.open(filename);
     if (!file.is_open()) {
-        cerr << "Ошибка: невозможно открыть файл " << filename << endl;
+        cerr << "РћС€РёР±РєР°: РЅРµРІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» " << filename << endl;
         return;
     }
     file << input;
@@ -34,7 +34,7 @@ void change_file(const string& filename, string input) {
     
 }
 
-// Функции запуска алгоритмов
+// Р¤СѓРЅРєС†РёРё Р·Р°РїСѓСЃРєР° Р°Р»РіРѕСЂРёС‚РјРѕРІ
 void run_playfer(string& input) {
     PlayferAlgorithm playfer;
     playfer.execute(input);
@@ -51,66 +51,66 @@ void run_base64(string& input) {
 }
 
 int main() {
-    SetConsoleCP(1251);        //для корректного ввода и вывода русских символов в консоли
+    SetConsoleCP(1251);        //РґР»СЏ РєРѕСЂСЂРµРєС‚РЅРѕРіРѕ РІРІРѕРґР° Рё РІС‹РІРѕРґР° СЂСѓСЃСЃРєРёС… СЃРёРјРІРѕР»РѕРІ РІ РєРѕРЅСЃРѕР»Рё
     SetConsoleOutputCP(1251);
     setlocale(LC_ALL, "ru_RU.UTF-8");
     string passenter = "323565", passcheck, userName;
-    cout << "Добро пожаловать, ваше имя? " << endl;
+    cout << "Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ, РІР°С€Рµ РёРјСЏ? " << endl;
     cin >> userName;
 
-    cout << userName + ", Введите пароль для авторизации: ";
+    cout << userName + ", Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ РґР»СЏ Р°РІС‚РѕСЂРёР·Р°С†РёРё: ";
     cin >> passcheck;
     while (passenter != passcheck) {
-        cout << "Пароль неверный" << endl;
-        cout << userName + ", Введите пароль для авторизации: ";
+        cout << "РџР°СЂРѕР»СЊ РЅРµРІРµСЂРЅС‹Р№" << endl;
+        cout << userName + ", Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ РґР»СЏ Р°РІС‚РѕСЂРёР·Р°С†РёРё: ";
         cin >> passcheck;
     }
 
     while (true) {
-        cout << "\nВыберите источник текста:\n";
-        cout << "1. Ввод текста с клавиатуры\n";
-        cout << "2. Чтение текста из файла\n";
-        cout << "0. Выход\n";
-        cout << "Ваш выбор: ";
+        cout << "\nР’С‹Р±РµСЂРёС‚Рµ РёСЃС‚РѕС‡РЅРёРє С‚РµРєСЃС‚Р°:\n";
+        cout << "1. Р’РІРѕРґ С‚РµРєСЃС‚Р° СЃ РєР»Р°РІРёР°С‚СѓСЂС‹\n";
+        cout << "2. Р§С‚РµРЅРёРµ С‚РµРєСЃС‚Р° РёР· С„Р°Р№Р»Р°\n";
+        cout << "0. Р’С‹С…РѕРґ\n";
+        cout << "Р’Р°С€ РІС‹Р±РѕСЂ: ";
         string input_choice;
         cin >> input_choice;
 
         if (input_choice == "0") {
-            cout << "Выход из программы.\n";
+            cout << "Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹.\n";
             break;
         }
 
         string input_data;
         string filename;
         if (input_choice == "1") {
-            cout << "Введите текст для обработки: ";
+            cout << "Р’РІРµРґРёС‚Рµ С‚РµРєСЃС‚ РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё: ";
             cin.ignore(); 
             getline(cin, input_data);
         } else if (input_choice == "2") {
-            cout << "Введите имя файла: ";
+            cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р°: ";
             cin >> filename;
             input_data = read_from_file(filename);
             if (input_data.empty()) {
                 continue; 
             }
-            cout << "Данные из файла:\n" << input_data << endl;
+            cout << "Р”Р°РЅРЅС‹Рµ РёР· С„Р°Р№Р»Р°:\n" << input_data << endl;
         } else {
-            cerr << "Ошибка: неверный ввод!" << endl;
+            cerr << "РћС€РёР±РєР°: РЅРµРІРµСЂРЅС‹Р№ РІРІРѕРґ!" << endl;
             continue;
         }
 
-        cout << "\nВыберите алгоритм:\n";
+        cout << "\nР’С‹Р±РµСЂРёС‚Рµ Р°Р»РіРѕСЂРёС‚Рј:\n";
         cout << "1. Playfer\n";
         cout << "2. Enigma\n";
         cout << "3. Base64\n";
-        cout << "0. Выход\n";
-        cout << "Ваш выбор: ";
+        cout << "0. Р’С‹С…РѕРґ\n";
+        cout << "Р’Р°С€ РІС‹Р±РѕСЂ: ";
 
         string choice;
         cin >> choice;
 
         if (choice == "0") {
-            cout << "Выход из программы.\n";
+            cout << "Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹.\n";
             break;
         }
 
@@ -125,7 +125,7 @@ int main() {
                 run_base64(input_data);
                 break;
             default:
-                cerr << "Ошибка: неверный ввод!" << endl;
+                cerr << "РћС€РёР±РєР°: РЅРµРІРµСЂРЅС‹Р№ РІРІРѕРґ!" << endl;
         }
 
         if(input_choice == "2")

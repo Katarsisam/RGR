@@ -31,4 +31,4 @@ clean :
 rebuild : clean 
 
 #sudo apt install mingw-w64
-#Найти у себя i686-w64-mingw32-g++ (скачать и т.д)
+#РќР°Р№С‚Рё Сѓ СЃРµР±СЏ i686-w64-mingw32-g++ (СЃРєР°С‡Р°С‚СЊ Рё С‚.Рґ)

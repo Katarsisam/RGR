@@ -5,18 +5,18 @@
 #include <cctype>
 #include "PlayferAlgorithm.h"
 
-// Очистка текста от пробелов и преобразование в верхний регистр
+// РћС‡РёСЃС‚РєР° С‚РµРєСЃС‚Р° РѕС‚ РїСЂРѕР±РµР»РѕРІ Рё РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РІ РІРµСЂС…РЅРёР№ СЂРµРіРёСЃС‚СЂ
 std::string PlayferAlgorithm::preprocess_text(const std::string& text) {
     std::string result;
     for (char ch : text) {
-        if (std::isalpha(ch)) { // Убираем все, кроме букв
+        if (std::isalpha(ch)) { // РЈР±РёСЂР°РµРј РІСЃРµ, РєСЂРѕРјРµ Р±СѓРєРІ
             result += std::toupper(ch);
         }
     }
     return result;
 }
 
-// Создание таблицы Плейфера
+// РЎРѕР·РґР°РЅРёРµ С‚Р°Р±Р»РёС†С‹ РџР»РµР№С„РµСЂР°
 std::vector<std::vector<unsigned char>> PlayferAlgorithm::create_playfair_table(const std::string& key, std::string& alphabet) {
     alphabet = (key.find_first_of(RUS_ALPHABET) != std::string::npos) ? RUS_ALPHABET : ENG_ALPHABET;
     matrix_size = (alphabet == RUS_ALPHABET) ? 6 : 5;
@@ -25,21 +25,21 @@ std::vector<std::vector<unsigned char>> PlayferAlgorithm::create_playfair_table(
     std::string filtered_key = preprocess_text(key);
     std::string table_content;
 
-    // Убираем дубликаты из ключа
+    // РЈР±РёСЂР°РµРј РґСѓР±Р»РёРєР°С‚С‹ РёР· РєР»СЋС‡Р°
     for (char ch : filtered_key) {
         if (table_content.find(ch) == std::string::npos) {
             table_content += ch;
         }
     }
 
-    // Добавляем оставшиеся буквы алфавита
+    // Р”РѕР±Р°РІР»СЏРµРј РѕСЃС‚Р°РІС€РёРµСЃСЏ Р±СѓРєРІС‹ Р°Р»С„Р°РІРёС‚Р°
     for (char ch : alphabet) {
         if (table_content.find(ch) == std::string::npos) {
             table_content += ch;
         }
     }
 
-    // Заполняем таблицу
+    // Р—Р°РїРѕР»РЅСЏРµРј С‚Р°Р±Р»РёС†Сѓ
     int idx = 0;
     for (int i = 0; i < matrix_size; i++) {
         for (int j = 0; j < matrix_size; j++) {
@@ -50,7 +50,7 @@ std::vector<std::vector<unsigned char>> PlayferAlgorithm::create_playfair_table(
     return table;
 }
 
-// Поиск позиции символа в таблице
+// РџРѕРёСЃРє РїРѕР·РёС†РёРё СЃРёРјРІРѕР»Р° РІ С‚Р°Р±Р»РёС†Рµ
 std::pair<int, int> PlayferAlgorithm::find_position_in_table(const std::vector<std::vector<unsigned char>>& table, char ch) {
     for (int i = 0; i < matrix_size; i++) {
         for (int j = 0; j < matrix_size; j++) {
@@ -59,23 +59,23 @@ std::pair<int, int> PlayferAlgorithm::find_position_in_table(const std::vector<s
             }
         }
     }
-    return {-1, -1}; // Не найден
+    return {-1, -1}; // РќРµ РЅР°Р№РґРµРЅ
 }
 
-// Шифрование биграмм
+// РЁРёС„СЂРѕРІР°РЅРёРµ Р±РёРіСЂР°РјРј
 std::string PlayferAlgorithm::playfair_encrypt(const std::string& text, const std::vector<std::vector<unsigned char>>& table) {
     std::string result;
     std::string prepared_text;
 
-    // Формируем биграммы
+    // Р¤РѕСЂРјРёСЂСѓРµРј Р±РёРіСЂР°РјРјС‹
     for (size_t i = 0; i < text.size(); i++) {
         prepared_text += text[i];
         if (i + 1 < text.size() && text[i] == text[i + 1]) {
-            prepared_text += 'X'; // Заполнение, если символ повторяется
+            prepared_text += 'X'; // Р—Р°РїРѕР»РЅРµРЅРёРµ, РµСЃР»Рё СЃРёРјРІРѕР» РїРѕРІС‚РѕСЂСЏРµС‚СЃСЏ
         }
     }
     if (prepared_text.size() % 2 != 0) {
-        prepared_text += 'X'; // Дополняем до четной длины
+        prepared_text += 'X'; // Р”РѕРїРѕР»РЅСЏРµРј РґРѕ С‡РµС‚РЅРѕР№ РґР»РёРЅС‹
     }
 
     for (size_t i = 0; i < prepared_text.size(); i += 2) {
@@ -85,13 +85,13 @@ std::string PlayferAlgorithm::playfair_encrypt(const std::string& text, const st
         auto pos1 = find_position_in_table(table, a);
         auto pos2 = find_position_in_table(table, b);
 
-        if (pos1.first == pos2.first) { // Один ряд
+        if (pos1.first == pos2.first) { // РћРґРёРЅ СЂСЏРґ
             result += table[pos1.first][(pos1.second + 1) % matrix_size];
             result += table[pos2.first][(pos2.second + 1) % matrix_size];
-        } else if (pos1.second == pos2.second) { // Один столбец
+        } else if (pos1.second == pos2.second) { // РћРґРёРЅ СЃС‚РѕР»Р±РµС†
             result += table[(pos1.first + 1) % matrix_size][pos1.second];
             result += table[(pos2.first + 1) % matrix_size][pos2.second];
-        } else { // Прямоугольник
+        } else { // РџСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє
             result += table[pos1.first][pos2.second];
             result += table[pos2.first][pos1.second];
         }
@@ -100,7 +100,7 @@ std::string PlayferAlgorithm::playfair_encrypt(const std::string& text, const st
     return result;
 }
 
-// Дешифрование биграмм
+// Р”РµС€РёС„СЂРѕРІР°РЅРёРµ Р±РёРіСЂР°РјРј
 std::string PlayferAlgorithm::playfair_decrypt(const std::string& text, const std::vector<std::vector<unsigned char>>& table) {
     std::string result;
 
@@ -111,13 +111,13 @@ std::string PlayferAlgorithm::playfair_decrypt(const std::string& text, const st
         auto pos1 = find_position_in_table(table, a);
         auto pos2 = find_position_in_table(table, b);
 
-        if (pos1.first == pos2.first) { // Один ряд
+        if (pos1.first == pos2.first) { // РћРґРёРЅ СЂСЏРґ
             result += table[pos1.first][(pos1.second - 1 + matrix_size) % matrix_size];
             result += table[pos2.first][(pos2.second - 1 + matrix_size) % matrix_size];
-        } else if (pos1.second == pos2.second) { // Один столбец
+        } else if (pos1.second == pos2.second) { // РћРґРёРЅ СЃС‚РѕР»Р±РµС†
             result += table[(pos1.first - 1 + matrix_size) % matrix_size][pos1.second];
             result += table[(pos2.first - 1 + matrix_size) % matrix_size][pos2.second];
-        } else { // Прямоугольник
+        } else { // РџСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє
             result += table[pos1.first][pos2.second];
             result += table[pos2.first][pos1.second];
         }
@@ -128,19 +128,19 @@ std::string PlayferAlgorithm::playfair_decrypt(const std::string& text, const st
 
 void PlayferAlgorithm::execute(std::string& inputX) {
     
-    std::cout << "Введите режим (1 - ENCODE/ 2 - DECODE): ";
+    std::cout << "Р’РІРµРґРёС‚Рµ СЂРµР¶РёРј (1 - ENCODE/ 2 - DECODE): ";
     std::cin >> mode;
 
     if (mode != '1' && mode != '2') {
-        std::cerr << "Ошибка: неверный режим!" << std::endl;
+        std::cerr << "РћС€РёР±РєР°: РЅРµРІРµСЂРЅС‹Р№ СЂРµР¶РёРј!" << std::endl;
         return;
     }
 
-    std::cout << "Введите ключевое слово (5-10 символов): ";
+    std::cout << "Р’РІРµРґРёС‚Рµ РєР»СЋС‡РµРІРѕРµ СЃР»РѕРІРѕ (5-10 СЃРёРјРІРѕР»РѕРІ): ";
     std::cin >> keyword;
 
     if (keyword.size() < 5 || keyword.size() > 10) {
-        std::cerr << "Ошибка: длина ключа должна быть от 5 до 10 символов!" << std::endl;
+        std::cerr << "РћС€РёР±РєР°: РґР»РёРЅР° РєР»СЋС‡Р° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РѕС‚ 5 РґРѕ 10 СЃРёРјРІРѕР»РѕРІ!" << std::endl;
         return;
     }
 
@@ -149,10 +149,10 @@ void PlayferAlgorithm::execute(std::string& inputX) {
     if (mode == '1') {
         message = preprocess_text(inputX);
         inputX = playfair_encrypt(message, table);
-        std::cout << "Зашифрованный текст: " <<  inputX << std::endl;
+        std::cout << "Р—Р°С€РёС„СЂРѕРІР°РЅРЅС‹Р№ С‚РµРєСЃС‚: " <<  inputX << std::endl;
     } else {
         inputX = preprocess_text(inputX);
         inputX = playfair_decrypt(inputX, table);
-        std::cout << "Расшифрованный текст: " << inputX << std::endl;
+        std::cout << "Р Р°СЃС€РёС„СЂРѕРІР°РЅРЅС‹Р№ С‚РµРєСЃС‚: " << inputX << std::endl;
     }
 }
