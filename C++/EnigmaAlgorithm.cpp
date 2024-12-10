@@ -3,7 +3,7 @@
 #include <algorithm>
 
 #define ENG_ALPHABET "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-#define RUS_ALPHABET "РђР‘Р’Р“Р”Р•Р–Р—РР™РљР›РњРќРћРџР РЎРўРЈР¤РҐР¦Р§РЁР©РЄР«Р¬Р­Р®РЇ"
+#define RUS_ALPHABET "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 
 const std::string STANDARD_ROTORS[] = {
     "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
@@ -33,7 +33,7 @@ std::string EnigmaAlgorithm::encode_message(const std::string& alphabet) {
         }
     }
 
-    std::cout << "Р—Р°С€РёС„СЂРѕРІР°РЅРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ: " << message << std::endl;
+    std::cout << "Зашифрованное сообщение: " << message << std::endl;
     return message;
 }
 
@@ -57,41 +57,47 @@ std::string EnigmaAlgorithm::decode_message(const std::string& alphabet) {
         }
     }
 
-    std::cout << "Р”РµС€РёС„СЂРѕРІР°РЅРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ: " << message << std::endl;
+    std::cout << "Дешифрованное сообщение: " << message << std::endl;
     return message;
 }
 
 void EnigmaAlgorithm::execute(std::string& inputX) {
     int operation;
-    std::cout << "Р’РІРµРґРёС‚Рµ СЂРµР¶РёРј (1 - ENCODE/ 2 - DECODE): ";
+    std::cout << "Введите режим (1 - ENCODE/ 2 - DECODE): ";
     std::cin >> operation;
 
     if (operation != 1 && operation != 2) {
-        std::cerr << "РћС€РёР±РєР°: РЅРµРІРµСЂРЅС‹Р№ СЂРµР¶РёРј!" << std::endl;
+        std::cerr << "Ошибка: неверный режим!" << std::endl;
         return;
     }
-    
+
     message = inputX;
-    
-    std::cout << "Р’С‹Р±РµСЂРёС‚Рµ 3 СЂРѕС‚РѕСЂР° (1-5): ";
+
+    // Блокировка русского языка
+    if (message.find_first_of(RUS_ALPHABET) != std::string::npos) {
+        std::cerr << "Ошибка: Энигма поддерживает только латиницу!" << std::endl;
+        return;
+    }
+
+    std::cout << "Выберите 3 ротора (1-5): ";
     for (int i = 0; i < 3; ++i) {
         int rotor_choice;
         std::cin >> rotor_choice;
         if (rotor_choice < 1 || rotor_choice > 5) {
-            std::cerr << "РћС€РёР±РєР°: РЅРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ СЂРѕС‚РѕСЂР°!" << std::endl;
+            std::cerr << "Ошибка: неверный номер ротора!" << std::endl;
             return;
         }
         rotors.push_back(STANDARD_ROTORS[rotor_choice - 1]);
     }
 
-    std::cout << "Р’РІРµРґРёС‚Рµ 3 СЃРјРµС‰РµРЅРёСЏ: ";
+    std::cout << "Введите 3 смещения: ";
     for (int i = 0; i < 3; ++i) {
         int shift;
         std::cin >> shift;
         rotor_shifts.push_back(shift);
     }
 
-    std::string alphabet = message.find_first_of(RUS_ALPHABET) != std::string::npos ? RUS_ALPHABET : ENG_ALPHABET;
+    std::string alphabet = ENG_ALPHABET;
 
     for (char& c : message) {
         c = toupper(c);
@@ -102,5 +108,4 @@ void EnigmaAlgorithm::execute(std::string& inputX) {
     } else {
         inputX = decode_message(alphabet);
     }
-
 }

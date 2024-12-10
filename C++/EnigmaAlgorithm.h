@@ -6,9 +6,9 @@
 
 class EnigmaAlgorithm {
 public:
-   void execute(std::string& inputX);
+    void execute(std::string& inputX);
 private:
-    int var;
+    int var; 
     std::string message;
     std::vector<std::string> rotors;
     std::vector<int> rotor_shifts;

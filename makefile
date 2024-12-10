@@ -1,4 +1,5 @@
 CC = g++
+CCX = i686-w64-mingw32-g++
 CFLAGS = -Wall -Wextra 
 
 CF_CHECK = clang-format  -n
@@ -17,14 +18,17 @@ format :
 RGR: 
 
 objects: clean C++/*.cpp 
-	$(CC) $(CFLAGS) -c C++/*.cpp 
+	$(CCX) $(CFLAGS) -c C++/*.cpp 
 	ar rcs C++/liber.a *.o
 	mv *.o C++
 
 build: C++/liber.a C++/main.cpp
-	$(CC) $(CFLAGS) C++/main.cpp C++/liber.a -o build
+	$(CCX) $(CFLAGS) -o build C++/main.cpp C++/liber.a -static -static-libgcc -static-libstdc++
 
 clean :
-	$(RM) C++/*.o C++/*.a C++/*.so
+	$(RM) -f C++/*.o C++/*.a C++/*.so
 
 rebuild : clean 
+
+#sudo apt install mingw-w64
+#Найти у себя i686-w64-mingw32-g++ (скачать и т.д)

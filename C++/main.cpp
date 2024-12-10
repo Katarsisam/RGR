@@ -1,18 +1,18 @@
 #include <iostream>
 #include <fstream>
 #include <string>
- 
+#include <windows.h>
 #include "PlayferAlgorithm.h"
 #include "EnigmaAlgorithm.h"
 #include "Base64.h"
 
 using namespace std;
 
-// Р§С‚РµРЅРёРµ С‚РµРєСЃС‚Р° РёР· С„Р°Р№Р»Р°
+// Чтение текста из файла
 string read_from_file(const string& filename) {
     ifstream file(filename);
     if (!file.is_open()) {
-        cerr << "РћС€РёР±РєР°: РЅРµРІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» " << filename << endl;
+        cerr << "Ошибка: невозможно открыть файл " << filename << endl;
         file.close();
         return "";
     }
@@ -25,7 +25,7 @@ void change_file(const string& filename, string input) {
     ofstream file;
     file.open(filename);
     if (!file.is_open()) {
-        cerr << "РћС€РёР±РєР°: РЅРµРІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» " << filename << endl;
+        cerr << "Ошибка: невозможно открыть файл " << filename << endl;
         return;
     }
     file << input;
@@ -34,7 +34,7 @@ void change_file(const string& filename, string input) {
     
 }
 
-// Р¤СѓРЅРєС†РёРё Р·Р°РїСѓСЃРєР° Р°Р»РіРѕСЂРёС‚РјРѕРІ
+// Функции запуска алгоритмов
 void run_playfer(string& input) {
     PlayferAlgorithm playfer;
     playfer.execute(input);
@@ -51,67 +51,70 @@ void run_base64(string& input) {
 }
 
 int main() {
+    SetConsoleCP(1251);        //для корректного ввода и вывода русских символов в консоли
+    SetConsoleOutputCP(1251);
+    setlocale(LC_ALL, "ru_RU.UTF-8");
     string passenter = "323565", passcheck, userName;
-    cout << "Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ, РІР°С€Рµ РёРјСЏ? " << endl;
+    cout << "Добро пожаловать, ваше имя? " << endl;
     cin >> userName;
 
-    cout << userName + ", Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ РґР»СЏ Р°РІС‚РѕСЂРёР·Р°С†РёРё: ";
+    cout << userName + ", Введите пароль для авторизации: ";
     cin >> passcheck;
     while (passenter != passcheck) {
-        cout << "РџР°СЂРѕР»СЊ РЅРµРІРµСЂРЅС‹Р№" << endl;
-        cout << userName + ", Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ РґР»СЏ Р°РІС‚РѕСЂРёР·Р°С†РёРё: ";
+        cout << "Пароль неверный" << endl;
+        cout << userName + ", Введите пароль для авторизации: ";
         cin >> passcheck;
     }
 
     while (true) {
-        cout << "\nР’С‹Р±РµСЂРёС‚Рµ РёСЃС‚РѕС‡РЅРёРє С‚РµРєСЃС‚Р°:\n";
-        cout << "1. Р’РІРѕРґ С‚РµРєСЃС‚Р° СЃ РєР»Р°РІРёР°С‚СѓСЂС‹\n";
-        cout << "2. Р§С‚РµРЅРёРµ С‚РµРєСЃС‚Р° РёР· С„Р°Р№Р»Р°\n";
-        cout << "0. Р’С‹С…РѕРґ\n";
-        cout << "Р’Р°С€ РІС‹Р±РѕСЂ: ";
-        int input_choice;
+        cout << "\nВыберите источник текста:\n";
+        cout << "1. Ввод текста с клавиатуры\n";
+        cout << "2. Чтение текста из файла\n";
+        cout << "0. Выход\n";
+        cout << "Ваш выбор: ";
+        string input_choice;
         cin >> input_choice;
 
-        if (input_choice == 0) {
-            cout << "Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹.\n";
+        if (input_choice == "0") {
+            cout << "Выход из программы.\n";
             break;
         }
 
         string input_data;
         string filename;
-        if (input_choice == 1) {
-            cout << "Р’РІРµРґРёС‚Рµ С‚РµРєСЃС‚ РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё: ";
+        if (input_choice == "1") {
+            cout << "Введите текст для обработки: ";
             cin.ignore(); 
             getline(cin, input_data);
-        } else if (input_choice == 2) {
-            cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р°: ";
+        } else if (input_choice == "2") {
+            cout << "Введите имя файла: ";
             cin >> filename;
             input_data = read_from_file(filename);
             if (input_data.empty()) {
                 continue; 
             }
-            cout << "Р”Р°РЅРЅС‹Рµ РёР· С„Р°Р№Р»Р°:\n" << input_data << endl;
+            cout << "Данные из файла:\n" << input_data << endl;
         } else {
-            cerr << "РћС€РёР±РєР°: РЅРµРІРµСЂРЅС‹Р№ РІРІРѕРґ!" << endl;
+            cerr << "Ошибка: неверный ввод!" << endl;
             continue;
         }
 
-        cout << "\nР’С‹Р±РµСЂРёС‚Рµ Р°Р»РіРѕСЂРёС‚Рј:\n";
+        cout << "\nВыберите алгоритм:\n";
         cout << "1. Playfer\n";
         cout << "2. Enigma\n";
         cout << "3. Base64\n";
-        cout << "0. Р’С‹С…РѕРґ\n";
-        cout << "Р’Р°С€ РІС‹Р±РѕСЂ: ";
+        cout << "0. Выход\n";
+        cout << "Ваш выбор: ";
 
-        int choice;
+        string choice;
         cin >> choice;
 
-        if (choice == 0) {
-            cout << "Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹.\n";
+        if (choice == "0") {
+            cout << "Выход из программы.\n";
             break;
         }
 
-        switch (choice) {
+        switch (atoi(choice.c_str())) {
             case 1:
                 run_playfer(input_data);
                 break;
@@ -122,10 +125,10 @@ int main() {
                 run_base64(input_data);
                 break;
             default:
-                cerr << "РћС€РёР±РєР°: РЅРµРІРµСЂРЅС‹Р№ РІРІРѕРґ!" << endl;
+                cerr << "Ошибка: неверный ввод!" << endl;
         }
 
-        if(input_choice == 2)
+        if(input_choice == "2")
             change_file(filename,input_data);
     }
     return 0;

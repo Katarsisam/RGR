@@ -2,21 +2,27 @@
 #define PLAYFER_ALGORITHM_H
 
 #include <string>
- 
+#include <utility>
+#include <vector>
+
+#define RUS_ALPHABET "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+#define ENG_ALPHABET "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
 class PlayferAlgorithm {
 public:
     void execute(std::string& inputX);
 
 private:
-    int var;
+    char mode;
+    int matrix_size;
     std::string keyword;
     std::string message;
-    char matrix[5][5];
-    
-    void generate_matrix(const std::string& alphabet);
-    std::pair<int, int> find_position(char c);
-    std::string encode_bigram(const std::pair<int, int>& pos1, const std::pair<int, int>& pos2);
-    std::string decode_bigram(const std::pair<int, int>& pos1, const std::pair<int, int>& pos2);
+    std::string alphabet;
+    std::string preprocess_text(const std::string& text);
+    std::vector<std::vector<unsigned char>> create_playfair_table(const std::string& key, std::string& alphabet);
+    std::pair<int, int> find_position_in_table(const std::vector<std::vector<unsigned char>>& table, char ch);
+    std::string playfair_encrypt(const std::string& text, const std::vector<std::vector<unsigned char>>& table);
+    std::string playfair_decrypt(const std::string& text, const std::vector<std::vector<unsigned char>>& table);
 };
 
 #endif // PLAYFER_ALGORITHM_H
